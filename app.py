@@ -13,6 +13,8 @@ openai.api_key = os.getenv("KEY_OPENAI")
 
 ALLOWED_EXTENSIONS = {'mp3', 'wav'}
 
+# Função auxiliar para verificar se o tipo de arquivo é permitido
+
 
 def allowed_file(filename, allowed_extensions):
     return '.' in filename and \
@@ -53,8 +55,6 @@ def upload_audio():
         return transcription, 200
     except requests.exceptions.RequestException as e:
         return f'Erro ao transcrever áudio: {e}', 500
-
-        # Função auxiliar para verificar se o tipo de arquivo é permitido
 
 
 if __name__ == '__main__':

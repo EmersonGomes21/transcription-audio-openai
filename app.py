@@ -9,7 +9,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = './uploads'
-openai.api_key = os.getenv("KEY_OPENAI")
+openai.api_key = os.getenv("KEY_OPENAI") or os.environ.get('API_KEY')
 
 ALLOWED_EXTENSIONS = {'mp3', 'wav'}
 

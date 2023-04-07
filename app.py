@@ -40,7 +40,7 @@ def upload_audio():
         return jsonify({
             'message':  'Tipo de arquivo inválido. Tipos permitidos: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}), 400
 
-    filename = secure_filename(file.filename)
+    filename = secure_filename(f"{int(time.time() * 1000)}_{file.filename}")
 # Save the file in server
     pathFileTemp = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(pathFileTemp)

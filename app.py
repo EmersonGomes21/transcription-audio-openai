@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 load_dotenv()
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = './uploads'
+# app.config['UPLOAD_FOLDER'] = './uploads'
 openai.api_key = os.getenv("KEY_OPENAI") or os.environ.get('API_KEY')
 
 ALLOWED_EXTENSIONS = {'mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'}
@@ -42,9 +42,9 @@ def upload_audio():
 
     filename = secure_filename(f"{int(time.time() * 1000)}_{file.filename}")
 # Save the file in server
-    pathFileTemp = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(pathFileTemp)
-    fileTemp = open(pathFileTemp, 'rb')
+    pathFileTemp = filename
+    file.save(filename)
+    fileTemp = open(filename, 'rb')
 
     try:
         transcription = openai.Audio.transcribe("whisper-1", file=fileTemp)

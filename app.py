@@ -30,14 +30,14 @@ def upload_audio():
 
    # Check if the audio file was sent in the request
     if not request.files.get('file'):
-        return 'arquivo inválido', 400
+        return 'Invalid file', 400
 
     file = request.files['file']
 
     # Check if the uploaded file is of a valid type
     if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
         return jsonify({
-            'message':  'Tipo de arquivo inválido. Tipos permitidos: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}), 400
+            'message':  'Invalid file type. allowed types: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}), 400
 
     filename = secure_filename(f"{int(time.time() * 1000)}_{file.filename}")
 # Save the file in server
@@ -48,7 +48,7 @@ def upload_audio():
         transcription = openai.Audio.transcribe("whisper-1", file=audio)
         return transcription, 200
     except requests.exceptions.RequestException as e:
-        return f'Erro ao transcrever áudio: {e}', 500
+        return f'Error transcribing audio: {e}', 500
     finally:
         audio.close()
         os.remove(filename)

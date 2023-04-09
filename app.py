@@ -2,9 +2,10 @@ from dotenv import load_dotenv
 import os
 import time
 import openai
-from flask import Flask, request, jsonify
+from flask import Flask, request
 import requests
 from werkzeug.utils import secure_filename
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -22,13 +23,13 @@ def allowed_file(filename, allowed_extensions):
 
 @app.route('/', methods=['GET'])
 def index():
-    return jsonify({'message': 'ok'}), 200
+    return {'message': 'ok'}, 200
 
 
 @app.route('/upload-audio', methods=['POST'])
 def upload_audio():
 
-   # Check if the audio file was sent in the request
+    # Check if the audio file was sent in the request
     if not request.files.get('file'):
         return 'Invalid file', 400
 
@@ -36,11 +37,11 @@ def upload_audio():
 
     # Check if the uploaded file is of a valid type
     if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
-        return jsonify({
-            'message':  'Invalid file type. allowed types: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}), 400
+        return {
+            'message':  'Invalid file type. allowed types: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}, 400
 
-    filename = secure_filename(f"{int(time.time() * 1000)}_{file.filename}")
-# Save the file in server
+    filename = secure_filename(file.filename)
+    # Save the file in server
     file.save(filename)
     audio = open(filename, 'rb')
 

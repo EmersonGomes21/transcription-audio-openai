@@ -35,10 +35,10 @@ def upload_audio():
 
     file = request.files['file']
 
-    # # Check if the uploaded file is of a valid type
-    # if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
-    #     return {
-    #         'message':  'Invalid file type. allowed types: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}, 400
+    # Check if the uploaded file is of a valid type
+    if not allowed_file(file.filename, ALLOWED_EXTENSIONS):
+        return {
+            'message':  'Invalid file type. allowed types: ' + ', '.join(ALLOWED_EXTENSIONS)+'.'}, 400
 
     filename = secure_filename(file.filename)
     # Save the file in server
